@@ -1,21 +1,23 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const logger = require("morgan");
+const morgan = require("morgan");
+const path = require("path");
 
 const PORT = process.env.PORT || 3000
 
 const app = express();
 
-app.use(logger("dev"));
+app.use(morgan("dev"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 app.use(express.static("Develop/public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
+const MONGODB_URI = process.env.MONGODD_URI || "mongodb://localhost/workout";
+mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
-  useFindAndModify: false
+  useFindAndModify: false,
+  useUnifiedTopology: true
 });
 
 // routes
